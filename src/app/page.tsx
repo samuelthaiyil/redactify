@@ -616,7 +616,7 @@ export default function PDFRedactionTool() {
                     <div className="flex flex-col items-center">
                       <label
                         htmlFor="pdf-upload"
-                        className="cursor-pointer inline-flex items-center px-8 py-2 border border-transparent text-sm text-black font-medium rounded-md"
+                        className="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm text-black font-medium rounded-md h-[38px]"
                       >
                         <Icon name="upload" className="mr-2" />
                         Choose or drop your PDF File
@@ -647,7 +647,7 @@ export default function PDFRedactionTool() {
                         fileInputRef.current.value = '';
                       }
                     }}
-                    className="text-sm inline-flex items-center justify-center px-2 py-1 rounded-md"
+                    className="text-sm inline-flex items-center justify-center px-4 py-2 rounded-md h-[38px]"
                   >
                     <Icon name="trash" className="text-red-500" />
                   </button>
@@ -671,10 +671,10 @@ export default function PDFRedactionTool() {
                         value={query}
                         onChange={(e) => setRedactionQueries(prev => [...prev.slice(0, index), e.target.value, ...prev.slice(index + 1)])}
                         placeholder="Company Name, etc."
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-black placeholder-gray-600"
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-black placeholder-gray-600 h-[38px]"
                       />
                       {redactionQueries.length > 1 && <button
-                        className="flex items-center justify-center w-8 h-8 text-white text-sm border border-transparent rounded-md bg-red-500"
+                        className="flex items-center justify-center px-4 py-2 text-white text-sm border border-transparent rounded-md bg-red-500 h-[38px]"
                         onClick={() => {
                           setRedactionQueries(prev => prev.filter((_, i) => i !== index));
                         }}
@@ -684,7 +684,7 @@ export default function PDFRedactionTool() {
                     </div>
                   </div>
                 ))}
-                <button className="mt-2 text-sm border border-transparent rounded-md text-black disabled:bg-gray-400 flex items-center justify-center"
+                <button className="mt-2 text-sm border border-transparent rounded-md text-black disabled:bg-gray-400 flex items-center justify-center px-4 py-2 h-[38px]"
                   onClick={() => {
                     setRedactionQueries(prev => [...prev, '']);
                   }}>
@@ -700,7 +700,7 @@ export default function PDFRedactionTool() {
                           <button
               onClick={processRedaction}
               disabled={isProcessing || !redactionQueries.every(q => Boolean(q))}
-              className="text-sm inline-flex items-center px-3 py-2 border border-transparent rounded-md text-white bg-black disabled:bg-gray-400"
+              className="text-sm inline-flex items-center px-4 py-2 border border-transparent rounded-md text-white bg-black disabled:bg-gray-400 h-[38px]"
             >
                 {isProcessing ? 'Processing...' : (
                   <>
@@ -743,24 +743,24 @@ export default function PDFRedactionTool() {
                     value={downloadFilename}
                     onChange={(e) => setDownloadFilename(e.target.value)}
                     placeholder="Enter a filename for the redacted PDF"
-                    className="w-70 text-sm px-3 py-2 border border-gray-300 rounded-l-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
+                    className="w-70 text-sm px-4 py-2 border border-gray-300 rounded-l-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
                   />
-                  <span className="text-sm px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 h-[38px] flex items-center">.pdf</span>
+                  <span className="text-sm px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 h-[38px] flex items-center">.pdf</span>
                 </div>
               </div>
               <button
                 onClick={downloadRedactedPDF}
-                className="text-sm inline-flex items-center px-3 py-2 border border-transparent rounded-md text-white disabled:bg-gray-400 bg-black h-[38px]"
+                className="text-sm inline-flex items-center px-4 py-2 border border-transparent rounded-md text-white disabled:bg-gray-400 bg-black h-[38px]"
               >
                 <Icon name="download" className="mr-2" />
                 Download
               </button>
               <button
                 onClick={resetTool}
-                className="text-sm inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
+                className="text-sm inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
               >
                 <Icon name="arrow-clockwise" className="mr-2" />
-                Start Over
+                New
               </button>
             </div>
           )}
@@ -789,7 +789,7 @@ export default function PDFRedactionTool() {
                     <button
                       onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                       disabled={currentPage === 1}
-                      className="p-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50"
+                      className="px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50 h-[38px] inline-flex items-center justify-center"
                     >
                       <Icon name="chevron-left" />
                     </button>
@@ -799,7 +799,7 @@ export default function PDFRedactionTool() {
                     <button
                       onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                       disabled={currentPage === totalPages}
-                      className="p-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50"
+                      className="px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50 h-[38px] inline-flex items-center justify-center"
                     >
                       <Icon name="chevron-right" />
                     </button>
