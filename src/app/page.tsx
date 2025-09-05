@@ -4,15 +4,9 @@ import React, { useState, useRef, useCallback } from 'react';
 import { createWorker } from 'tesseract.js';
 import type * as Tesseract from 'tesseract.js';
 import { PDFDocument, rgb } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
 import { toast } from 'sonner';
 import Icon from './components/Icon';
 import PledgXLogo from './components/PledgXLogo';
-
-if (typeof window !== 'undefined') {
-  const basePath = '/';
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `${basePath}/pdf.worker.min.js`;
-}
 
 interface OCRResult {
   text: string;
@@ -77,6 +71,7 @@ export default function PDFRedactionTool() {
   // Initialize PDF.js worker with proper basePath handling
   const initializePDFWorker = useCallback(async () => {
     if (typeof window !== 'undefined') {
+      const pdfjsLib = await import('pdfjs-dist');
       const basePath = '/';
       const workerPath = `${basePath}/pdf.worker.min.js`;
 
@@ -100,6 +95,7 @@ export default function PDFRedactionTool() {
     try {
       setIsPdfLoading(true);
       await initializePDFWorker();
+      const pdfjsLib = await import('pdfjs-dist');
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       setPdfDocument(pdf);
@@ -194,7 +190,8 @@ export default function PDFRedactionTool() {
 
   const convertPDFToImages = async (pdfBuffer: ArrayBuffer): Promise<{ images: ImageData[], renderScale: number }> => {
     try {
-
+      const pdfjsLib = await import('pdfjs-dist');
+      
       const pdf = await pdfjsLib.getDocument({
         data: pdfBuffer,
         useSystemFonts: true,
