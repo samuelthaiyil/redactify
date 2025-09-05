@@ -7,7 +7,6 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 import { toast } from 'sonner';
 import Icon from './components/Icon';
-import PledgXLogo from './components/PledgXLogo';
 
 if (typeof window !== 'undefined') {
   const basePath = '/';
@@ -40,11 +39,9 @@ export default function PDFRedactionTool() {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [redactionQueries, setRedactionQueries] = useState<string[]>(['']);
-  const [ocrResults, setOcrResults] = useState<OCRResult[][]>([]);
   const [redactedPdfUrl, setRedactedPdfUrl] = useState<string | null>(null);
   const [wordsToRedact, setWordsToRedact] = useState<RedactionWord[]>([]);
   const [downloadFilename, setDownloadFilename] = useState<string>('');
-  const [pdfDocument, setPdfDocument] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [pdfPageImages, setPdfPageImages] = useState<string[]>([]);
@@ -102,7 +99,6 @@ export default function PDFRedactionTool() {
       await initializePDFWorker();
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      setPdfDocument(pdf);
       setTotalPages(pdf.numPages);
       setCurrentPage(1);
 
@@ -141,7 +137,6 @@ export default function PDFRedactionTool() {
     if (uploadedFile && uploadedFile.type === 'application/pdf') {
       setFile(uploadedFile);
       setRedactedPdfUrl(null);
-      setOcrResults([]);
       setWordsToRedact([]);
       setDownloadFilename(uploadedFile.name.replace('.pdf', ''));
       loadPDFForViewer(uploadedFile);
@@ -182,7 +177,6 @@ export default function PDFRedactionTool() {
       if (droppedFile.type === 'application/pdf') {
         setFile(droppedFile);
         setRedactedPdfUrl(null);
-        setOcrResults([]);
         setWordsToRedact([]);
         setDownloadFilename(droppedFile.name.replace('.pdf', ''));
         loadPDFForViewer(droppedFile);
@@ -330,8 +324,6 @@ export default function PDFRedactionTool() {
     const queryLower = query.map(q => q.toLowerCase());
 
     ocrResults.forEach((pageResults, pageIndex) => {
-      let pageMatches = 0;
-
       pageResults.forEach(result => {
         const textLower = result.text.toLowerCase();
         const matches = queryLower.some(q => textLower.includes(q));
@@ -343,12 +335,8 @@ export default function PDFRedactionTool() {
             bbox: result.bbox,
             page: pageIndex,
           });
-          pageMatches++;
-
         }
       });
-
-
     });
 
     return wordsToRedact;
@@ -379,8 +367,6 @@ export default function PDFRedactionTool() {
 
 
 
-      let actualRedactionCount = 0;
-      let skippedRedactionCount = 0;
 
       for (const word of wordsToRedact) {
         try {
@@ -448,9 +434,6 @@ export default function PDFRedactionTool() {
               color: rgb(0, 0, 0),
             });
 
-            actualRedactionCount++;
-          } else {
-            skippedRedactionCount++;
           }
         } catch (wordError) {
           console.error(`Error redacting word "${word.word}" on page ${word.page + 1}:`, wordError);
