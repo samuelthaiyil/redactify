@@ -12,20 +12,13 @@ if (typeof window !== 'undefined') {
     session_recording: {
       // Record 100% of sessions for testing - adjust as needed
       recordCrossOriginIframes: true,
-      // Enable console logs in session replays
-      recordConsoleLog: true,
-      // Enable performance tracking
-      recordPerformance: true,
       // Mask sensitive inputs (passwords, credit cards, etc.)
       maskAllInputs: false,
       maskInputOptions: {
         password: true,
         email: false,
-        name: false,
         tel: false,
-        address: false,
-        creditCardNumber: true,
-        iban: true,
+        text: false,
       },
     },
     // Additional configuration for better UX

@@ -40,10 +40,9 @@ NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
 The session replay is configured with the following settings:
 
 - **Recording Rate**: Currently set to record all sessions (for testing)
-- **Console Logs**: Enabled for debugging
-- **Performance Tracking**: Enabled
-- **Input Masking**: Passwords and credit card numbers are masked
+- **Input Masking**: Passwords are masked, other inputs like email and text are visible
 - **Cross-origin Iframes**: Enabled for full coverage
+- **Privacy Controls**: Sensitive input masking enabled
 
 ### 4. Privacy & GDPR Compliance
 
