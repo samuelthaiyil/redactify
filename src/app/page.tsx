@@ -580,10 +580,10 @@ export default function PDFRedactionTool() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-5">
-      <div className={`${file ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : 'max-w-4xl mx-auto'}`}>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4 sm:p-5">
+      <div className={`${file ? 'grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-7xl' : 'max-w-4xl mx-auto w-full'}`}>
         {/* Main Controls */}
-        <div className={`${file ? '' : 'w-full'} bg-white rounded-lg shadow-lg p-6 space-y-6`}>
+        <div className={`${file ? '' : 'w-full'} bg-white rounded-lg shadow-lg p-4 sm:p-6 space-y-4 sm:space-y-6`}>
           {/* File Upload Section */}
           <div 
             className={`border-2 border-dashed rounded-lg p-6 transition-colors duration-200 ${
@@ -684,11 +684,11 @@ export default function PDFRedactionTool() {
                     </div>
                   </div>
                 ))}
-                <button className="mt-2 text-sm border border-transparent rounded-md text-black disabled:bg-gray-400 flex items-center justify-center px-4 py-2 h-[38px]"
+                <button className="mt-2 text-sm border border-transparent rounded-md text-black disabled:bg-gray-400 flex items-center justify-center py-2 h-[38px]"
                   onClick={() => {
                     setRedactionQueries(prev => [...prev, '']);
                   }}>
-                  <Icon name="plus" className="mr-1" />
+                  <Icon name="plus" className="md:mr-1" />
                   Add Another Phrase
                 </button>
               </div>
@@ -697,11 +697,11 @@ export default function PDFRedactionTool() {
 
           {file && (
             <div className="text-center">
-                          <button
-              onClick={processRedaction}
-              disabled={isProcessing || !redactionQueries.every(q => Boolean(q))}
-              className="text-sm inline-flex items-center px-4 py-2 border border-transparent rounded-md text-white bg-black disabled:bg-gray-400 h-[38px]"
-            >
+              <button
+                onClick={processRedaction}
+                disabled={isProcessing || !redactionQueries.every(q => Boolean(q))}
+                className="w-full sm:w-auto text-sm inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-white bg-black disabled:bg-gray-400 h-[38px]"
+              >
                 {isProcessing ? 'Processing...' : (
                   <>
                     <Icon name="play-fill" className="mr-2" />
@@ -733,35 +733,70 @@ export default function PDFRedactionTool() {
           )}
 
           {redactedPdfUrl && (
-            <div className="flex items-end justify-center space-x-4">
-              <div className="flex flex-col items-start space-y-2">
-                <label htmlFor="download-filename" className="text-sm font-medium text-gray-700">Download as:</label>
-                <div className="inline-flex items-center">
+            <div className="space-y-4">
+              {/* Mobile Layout - Stacked */}
+              <div className="flex flex-col space-y-4 sm:hidden">
+                {/* Download Input Row */}
+                <div className="flex flex-col space-y-2">
+                   <div className="flex items-center">
+                    <input
+                      id="download-filename-mobile"
+                      type="text"
+                      value={downloadFilename}
+                      onChange={(e) => setDownloadFilename(e.target.value)}
+                      placeholder="Enter filename"
+                      className="flex-1 text-sm px-3 py-2 border border-gray-300 rounded-l-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
+                    />
+                    <span className="text-sm px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 h-[38px] flex items-center">.pdf</span>
+                  </div>
+                </div>
+                
+                {/* Buttons Row */}
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={downloadRedactedPDF}
+                    className="w-full text-sm inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-white disabled:bg-gray-400 bg-black h-[38px]"
+                  >
+                    <Icon name="download" className="mr-2" />
+                    Download
+                  </button>
+                  <button
+                    onClick={resetTool}
+                    className="w-full text-sm inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
+                  >
+                    <Icon name="arrow-clockwise" className="mr-2" />
+                    Start Over
+                  </button>
+                </div>
+              </div>
+
+              <div className="hidden sm:flex sm:items-center sm:space-x-2">
+                <div className="flex items-center flex-1 min-w-0 max-w-xs">
                   <input
-                    id="download-filename"
+                    id="download-filename-desktop"
                     type="text"
                     value={downloadFilename}
                     onChange={(e) => setDownloadFilename(e.target.value)}
-                    placeholder="Enter a filename for the redacted PDF"
-                    className="w-70 text-sm px-4 py-2 border border-gray-300 rounded-l-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
+                    placeholder="Enter filename"
+                    className="flex-1 min-w-0 text-sm px-3 py-2 border border-gray-300 rounded-l-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
                   />
-                  <span className="text-sm px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 h-[38px] flex items-center">.pdf</span>
+                  <span className="text-sm px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 h-[38px] flex items-center">.pdf</span>
                 </div>
+                <button
+                  onClick={downloadRedactedPDF}
+                  className="text-sm inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-white disabled:bg-gray-400 bg-black h-[38px] whitespace-nowrap"
+                >
+                  <Icon name="download" className="mr-2" />
+                  Download
+                </button>
+                <button
+                  onClick={resetTool}
+                  className="text-sm inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px] whitespace-nowrap"
+                >
+                  <Icon name="arrow-clockwise" className="mr-2" />
+                  Start Over
+                </button>
               </div>
-              <button
-                onClick={downloadRedactedPDF}
-                className="text-sm inline-flex items-center px-4 py-2 border border-transparent rounded-md text-white disabled:bg-gray-400 bg-black h-[38px]"
-              >
-                <Icon name="download" className="mr-2" />
-                Download
-              </button>
-              <button
-                onClick={resetTool}
-                className="text-sm inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-400 h-[38px]"
-              >
-                <Icon name="arrow-clockwise" className="mr-2" />
-                New
-              </button>
             </div>
           )}
         </div>
@@ -773,7 +808,7 @@ export default function PDFRedactionTool() {
               <PDFSkeleton />
             ) : (
               <div 
-                className="bg-white rounded-lg shadow-lg p-6 animate-fade-in" 
+                className="bg-white rounded-lg shadow-lg p-4 sm:p-6 animate-fade-in" 
                 style={{ 
                   animation: 'slideInRight 0.5s ease-out forwards, fadeIn 0.6s ease-out forwards',
                   opacity: 0,
