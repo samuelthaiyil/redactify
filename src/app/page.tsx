@@ -613,13 +613,13 @@ export default function PDFRedactionTool() {
                       <p className="text-lg font-medium text-blue-700">Drop your PDF here</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center justify-center h-full">
                       <label
                         htmlFor="pdf-upload"
-                        className="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm text-black font-medium rounded-md h-[38px]"
+                        className="cursor-pointer flex flex-col items-center justify-center px-4 py-4 border border-transparent text-sm text-black font-medium rounded-md"
                       >
-                        <Icon name="upload" className="mr-2" />
-                        Choose or drop your PDF File
+                        <Icon name="upload" className="mb-2 text-gray-600" />
+                        <span className="text-gray-600">Choose or drop your PDF File</span>
                       </label>
                     </div>
                   )}
@@ -817,16 +817,13 @@ export default function PDFRedactionTool() {
                 }}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-medium text-black tracking-tighter">
-                    Preview
-                  </h3>
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                       disabled={currentPage === 1}
                       className="px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50 h-[38px] inline-flex items-center justify-center"
                     >
-                      <Icon name="chevron-left" />
+                      <Icon name="chevron-left" className="text-gray-500"/>
                     </button>
                     <span className="text-sm text-gray-600">
                       {currentPage} of {totalPages}
@@ -836,7 +833,7 @@ export default function PDFRedactionTool() {
                       disabled={currentPage === totalPages}
                       className="px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 hover:bg-gray-50 h-[38px] inline-flex items-center justify-center"
                     >
-                      <Icon name="chevron-right" />
+                      <Icon name="chevron-right" className="text-gray-500" />
                     </button>
                   </div>
                 </div>
